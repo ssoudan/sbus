@@ -7,8 +7,8 @@ const X7_RANGE: f32 = (X7_MAX - X7_MIN) as f32;
 #[derive(Debug, Copy, Clone)]
 pub struct TaranisX7SBusPacket {
     pub channels: [f32; 16],
-    failsafe: bool,
-    frame_lost: bool,
+    pub failsafe: bool,
+    pub frame_lost: bool,
 }
 
 impl TaranisX7SBusPacket {
@@ -26,7 +26,7 @@ impl TaranisX7SBusPacket {
     }
 
     fn map(v: u16) -> f32 {
-        let offset = v - X7_MIN;
+        let offset = v.saturating_sub(X7_MIN);
 
         return offset as f32 / X7_RANGE;
     }
